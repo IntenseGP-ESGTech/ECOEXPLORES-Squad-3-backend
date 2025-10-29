@@ -1,1 +1,2 @@
-# ECOEXPLORES-Squad-3-backend
+Backend do projeto EcoExplores realizado pelo Squad 3.
+
