@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: ECOA Auth API
+  version: '1.0.0'
+  description: API de autenticação (login e cadastro) com JWT e áreas protegidas por perfil.
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desenvolvimento
+tags:
+  - name: Auth
+    description: Rotas de autenticação
+  - name: Perfil
+    description: Áreas protegidas por perfil
+  - name: Util
+    description: Rotas utilitárias autenticadas
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Cadastrar novo usuário e retornar JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            examples:
+              exemplo:
+                value:
+                  nome: 'Maria Silva'
+                  documento: '12345678900'
+                  perfil: 'aluno'
+                  senha: 'minhasenha'
+      responses:
+        '201':
+          description: Usuário cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Documento já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Realizar login e obter JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              exemplo:
+                value:
+                  documento: '12345678900'
+                  senha: 'minhasenha'
+      responses:
+        '200':
+          description: Login realizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Campos obrigatórios ausentes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /me:
+    get:
+      tags: [Util]
+      summary: Retorna os dados do usuário autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dados do usuário autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeResponse'
+        '401':
+          description: Token ausente ou inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /area/aluno:
+    get:
+      tags: [Perfil]
+      summary: Área exclusiva do perfil aluno
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Acesso permitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Acesso negado para o perfil atual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /area/professor:
+    get:
+      tags: [Perfil]
+      summary: Área exclusiva do perfil professor
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Acesso permitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Acesso negado para o perfil atual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /area/diretor:
+    get:
+      tags: [Perfil]
+      summary: Área exclusiva do perfil diretor
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Acesso permitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Acesso negado para o perfil atual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /area/pai:
+    get:
+      tags: [Perfil]
+      summary: Área exclusiva do perfil pai
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Acesso permitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Acesso negado para o perfil atual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Perfil:
+      type: string
+      enum: [aluno, professor, diretor, pai]
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Maria Silva
+        documento:
+          type: string
+          example: "12345678900"
+        perfil:
+          $ref: '#/components/schemas/Perfil'
+      required: [id, nome, documento, perfil]
+    LoginRequest:
+      type: object
+      properties:
+        documento:
+          type: string
+          example: "12345678900"
+        senha:
+          type: string
+          format: password
+          example: minhasenha
+      required: [documento, senha]
+    RegisterRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Maria Silva
+        documento:
+          type: string
+          example: "12345678900"
+        perfil:
+          $ref: '#/components/schemas/Perfil'
+        senha:
+          type: string
+          format: password
+          example: minhasenha
+      required: [nome, documento, perfil, senha]
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        usuario:
+          $ref: '#/components/schemas/User'
+      required: [token, usuario]
+    MeResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Maria Silva
+        documento:
+          type: string
+          example: "12345678900"
+        perfil:
+          $ref: '#/components/schemas/Perfil'
+      required: [id, nome, documento, perfil]
+    Error:
+      type: object
+      properties:
+        mensagem:
+          type: string
+          example: Credenciais inválidas
