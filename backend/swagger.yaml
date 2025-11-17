@@ -1,0 +1,208 @@
+openapi: "3.0.3"
+info:
+  title: "API - Seu Projeto"
+  description: "Documentação Swagger gerada manualmente para o servidor Express."
+  version: "1.0.0"
+  contact:
+    name: "Equipe"
+    email: "dev@example.com"
+servers:
+  - url: "http://localhost:4000"
+    description: "Servidor local (desenvolvimento)"
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: connect.sid
+      description: "Sessão do express-session (cookie)"
+    googleOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://accounts.google.com/o/oauth2/v2/auth"
+          tokenUrl: "https://oauth2.googleapis.com/token"
+          scopes:
+            openid: "OpenID scope"
+            profile: "Perfil do usuário"
+            email: "Acesso ao email"
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Erro
+        code:
+          type: integer
+          example: 400
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        name:
+          type: string
+          example: Matheus
+        email:
+          type: string
+          format: email
+          example: matheus@example.com
+        password:
+          type: string
+          format: password
+          example: senhaSegura123
+    RegisterResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: user_123
+        email:
+          type: string
+          example: matheus@example.com
+        name:
+          type: string
+          example: Matheus
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: matheus@example.com
+        password:
+          type: string
+          format: password
+          example: senhaSegura123
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: user_123
+        name:
+          type: string
+          example: Matheus
+        email:
+          type: string
+          example: matheus@example.com
+paths:
+  /:
+    get:
+      summary: "Página inicial (HTML)"
+      responses:
+        "200":
+          description: "HTML estático retornado"
+          content:
+            text/html:
+              schema:
+                type: string
+  /health:
+    get:
+      summary: "Verifica saúde da API"
+      responses:
+        "200":
+          description: "Status da aplicação"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+  /register:
+    post:
+      tags:
+        - Register
+      summary: "Registrar novo usuário"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: "Usuário criado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+        "400":
+          description: "Dados inválidos"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: "Login local (email + senha)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: "Login realizado com sucesso (sessão cookie)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: "Credenciais inválidas"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/google:
+    get:
+      tags:
+        - Auth
+      summary: "Iniciar OAuth Google (redireciona para o Google)"
+      responses:
+        "302":
+          description: "Redirecionamento para Google OAuth"
+  /auth/google/callback:
+    get:
+      tags:
+        - Auth
+      summary: "Callback do Google OAuth"
+      responses:
+        "200":
+          description: "Callback processado; usuário autenticado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: "Falha na autenticação"
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: "Fazer logout (destroy session/cookie)"
+      security:
+        - cookieAuth: []
+      responses:
+        "204":
+          description: "Logout realizado (sem conteúdo)"
+        "401":
+          description: "Não autenticado"
+tags:
+  - name: Auth
+    description: "Rotas de autenticação (login, logout, OAuth)"
+  - name: Register
+    description: "Cadastro de novos usuários"
