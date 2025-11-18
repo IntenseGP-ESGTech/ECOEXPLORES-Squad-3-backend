@@ -1,24 +1,22 @@
 📘 ECOEXPLORES – Plataforma Educacional
-Projeto Integrador – Squad 3
-CESAR School – 3º Período
-📖 Descrição do Projeto
+Projeto Integrador – Squad 3 — CESAR School – 3º Período
+📖 Descrição
 
-O ECOEXPLORES é uma plataforma educativa interativa desenvolvida para apoiar estudantes e professores na compreensão das ODS – Objetivos de Desenvolvimento Sustentável.
-A aplicação apresenta conteúdos lúdicos, área do usuário, trilhas educacionais e autenticação via credenciais ou Google Login (OAuth 2.0).
+ECOEXPLORES é uma plataforma educativa interativa para apoiar estudantes e professores na compreensão das ODS – Objetivos de Desenvolvimento Sustentável, com conteúdos lúdicos, trilhas educacionais e login via credenciais ou Google OAuth.
 
-O sistema é dividido em:
+Componentes do Sistema
 
-Frontend (React) → interface visual do usuário
+Frontend (React) – Interface do usuário
 
-Backend (Node.js + Express) → APIs, regras de negócio
+Backend (Node.js + Express) – APIs e regras de negócio
 
-Banco de Dados SQLite → armazenamento simples, leve e local
+SQLite – Banco de dados local
 
-Autenticação JWT → login seguro
+JWT – Autenticação segura
 
-Login Social Google → integração oficial via Google OAuth
+Google OAuth 2.0 – Login social integrado
 
-🚀 Tecnologias Utilizadas
+🚀 Tecnologias
 Frontend
 
 React.js
@@ -33,25 +31,25 @@ Backend
 
 Node.js
 
-Express.js
+Express
 
 Passport + Google OAuth 2.0
 
-JWT (Json Web Token)
+JWT
 
 SQLite3
 
 Bcrypt
 
-Ferramentas de Apoio
+Suporte
 
 Postman / Thunder Client
 
 Git & GitHub
 
-Vite (ambiente de execução do React)
+Vite
 
-📂 Estrutura do Projeto
+📂 Estrutura
 ECOEXPLORES/
 │
 ├── backend/
@@ -64,8 +62,7 @@ ECOEXPLORES/
 │   │   │   ├── auth.js
 │   │   │   ├── register.js
 │   │   │   ├── googleAuth.js
-│   │   ├── middleware/
-│   │   │   ├── errorHandler.js
+│   │   ├── middleware/errorHandler.js
 │   │   ├── seed.js
 │   ├── package.json
 │
@@ -78,85 +75,78 @@ ECOEXPLORES/
     ├── package.json
 
 🔐 Autenticação
-✔ Login tradicional
-
-Baseado em:
+✔ Login Tradicional
 
 CNPJ/CPF
 
 Senha criptografada (bcrypt)
 
-Sessão via JWT + Cookies HttpOnly
+Sessão via JWT + Cookie HttpOnly
 
 ✔ Login com Google
 
-Fluxo completo:
+Fluxo:
 
 Usuário clica em “Entrar com Google”
 
-Redireciona para a página oficial do Google
+Google autoriza o login
 
-Google retorna para o backend (/auth/google/callback)
+Backend recebe /auth/google/callback
 
-Backend cria registro (se não existir)
+Cria usuário (se necessário)
 
-Backend gera JWT e salva em cookie
+Gera JWT
 
-Frontend recebe sessão autenticada
+Envia sessão autenticada ao frontend
 
-🗄 Banco de Dados SQLite
+🗄 Banco SQLite
 
-O arquivo fica em:
+Local:
 
 backend/database/cadastro.sqlite
 
 
 Tabelas principais:
 
-Tabela	Finalidade
-empresas	CNPJ, email e senha
-funcionarios	login de funcionários
-representantes	usuários representantes
-filiais	cadastros secundários
-users	Login com Google OAuth
+empresas
 
-O script para criar tudo automaticamente:
+funcionarios
+
+representantes
+
+filiais
+
+users (Google OAuth)
+
+Criar banco/tabelas:
 
 node src/seed.js
 
-▶️ Como Rodar o Projeto
-🔧 1. Backend
-Instalar dependências
+▶️ Como Rodar
+🔧 Backend
 cd backend
 npm install
-
-Rodar o backend
 npm run dev
-
-Gerar banco e tabelas:
 node src/seed.js
 
 
-O servidor inicia em:
+Servidor:
 
 http://localhost:4000
 
-💻 2. Frontend
-Instalar dependências
+💻 Frontend
 cd frontend
 npm install
-
-Rodar o frontend
 npm run dev
 
 
-O sistema abre em:
+Aplicação:
 
 http://localhost:5173
 
-🔧 Configuração do Google OAuth
+🔧 Google OAuth
 
-Crie um arquivo .env dentro do backend:
+Arquivo .env no backend:
 
 GOOGLE_CLIENT_ID=SEU_ID
 GOOGLE_CLIENT_SECRET=SEU_SECRET
@@ -165,31 +155,27 @@ FRONTEND_URL=http://localhost:5173
 JWT_SECRET=sua_chave_muito_segura
 
 
-Ativar no Google Cloud:
+Configuração no Google Cloud:
 
-Biblioteca: Google OAuth2
+API: Google OAuth2
 
-Tipo: Web Application
+App Type: Web
 
-Autorizado:
+URIs autorizadas:
 
 http://localhost:4000/auth/google
 
 http://localhost:4000/auth/google/callback
 
 🧪 Testes
+Login normal
 
-Para testar login:
-
-Login normal:
-
-empresa@exemplo.com
-
+Email: empresa@exemplo.com
 Senha: senha123
 
-Login Google:
+Login Google
 
-Clique no botão “Entrar com Google”
+→ Clique em Entrar com Google
 
 👨‍💻 Equipe – Squad 3
 Nome	Função
@@ -197,17 +183,6 @@ Matheus José Cardoso Luna
 Bruno Dornelas Costa Ciro da Penha
 Rafael Farias Santana
 Fábio Gomes dos Reis
-
 📝 Licença
 
-Projeto acadêmico — não possui restrições de uso.
-
-🔚 Conclusão
-
-Este projeto apresenta uma plataforma educacional moderna, responsiva e segura, integrando:
-
-✔ React Interface
-✔ Backend com Express
-✔ Banco SQLite
-✔ Autenticação JWT
-✔ Login com Google
+Projeto acadêmico – livre para uso didático.
