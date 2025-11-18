@@ -1,22 +1,23 @@
 📘 ECOEXPLORES – Plataforma Educacional
-Projeto Integrador – Squad 3 — CESAR School – 3º Período
-📖 Descrição
+Projeto Integrador – Squad 3
+CESAR School – 3º Período
+📖 Descrição do Projeto
 
-ECOEXPLORES é uma plataforma educativa interativa para apoiar estudantes e professores na compreensão das ODS – Objetivos de Desenvolvimento Sustentável, com conteúdos lúdicos, trilhas educacionais e login via credenciais ou Google OAuth.
+O ECOEXPLORES é uma plataforma educativa interativa desenvolvida para apoiar estudantes e professores na compreensão das ODS – Objetivos de Desenvolvimento Sustentável.
 
-Componentes do Sistema
+O sistema é dividido em:
 
-Frontend (React) – Interface do usuário
+Frontend (React) → interface visual
 
-Backend (Node.js + Express) – APIs e regras de negócio
+Backend (Node.js + Express) → APIs e regras de negócio
 
-SQLite – Banco de dados local
+SQLite → banco de dados local
 
-JWT – Autenticação segura
+JWT → autenticação segura
 
-Google OAuth 2.0 – Login social integrado
+Login com Google (OAuth 2.0)
 
-🚀 Tecnologias
+🚀 Tecnologias Utilizadas
 Frontend
 
 React.js
@@ -33,7 +34,7 @@ Node.js
 
 Express
 
-Passport + Google OAuth 2.0
+Passport Google OAuth2
 
 JWT
 
@@ -41,15 +42,7 @@ SQLite3
 
 Bcrypt
 
-Suporte
-
-Postman / Thunder Client
-
-Git & GitHub
-
-Vite
-
-📂 Estrutura
+📂 Estrutura do Projeto
 ECOEXPLORES/
 │
 ├── backend/
@@ -62,7 +55,8 @@ ECOEXPLORES/
 │   │   │   ├── auth.js
 │   │   │   ├── register.js
 │   │   │   ├── googleAuth.js
-│   │   ├── middleware/errorHandler.js
+│   │   ├── middleware/
+│   │   │   ├── errorHandler.js
 │   │   ├── seed.js
 │   ├── package.json
 │
@@ -75,31 +69,31 @@ ECOEXPLORES/
     ├── package.json
 
 🔐 Autenticação
-✔ Login Tradicional
+✔ Login tradicional
 
-CNPJ/CPF
+CPF/CNPJ
 
 Senha criptografada (bcrypt)
 
-Sessão via JWT + Cookie HttpOnly
+JWT + Cookies HttpOnly
 
 ✔ Login com Google
 
 Fluxo:
 
-Usuário clica em “Entrar com Google”
+Clica no botão "Entrar com Google"
 
-Google autoriza o login
+Redireciona para Google
 
-Backend recebe /auth/google/callback
+Google retorna ao backend
 
-Cria usuário (se necessário)
+Backend cria usuário (se não existir)
 
-Gera JWT
+JWT é gerado e salvo em cookie
 
-Envia sessão autenticada ao frontend
+Frontend recebe sessão autenticada
 
-🗄 Banco SQLite
+🗄 Banco de Dados SQLite
 
 Local:
 
@@ -116,35 +110,51 @@ representantes
 
 filiais
 
-users (Google OAuth)
+users (OAuth Google)
 
-Criar banco/tabelas:
+Criar tudo automaticamente:
 
 node src/seed.js
 
-▶️ Como Rodar
-🔧 Backend
+▶️ Como Rodar o Projeto
+1. Backend
+
+Instalar dependências:
+
 cd backend
 npm install
+
+
+Rodar:
+
 npm run dev
+
+
+Seeder:
+
 node src/seed.js
 
 
-Servidor:
+Servidor inicia em:
+👉 http://localhost:4000
 
-http://localhost:4000
+2. Frontend
 
-💻 Frontend
+Instalar dependências:
+
 cd frontend
 npm install
+
+
+Rodar o projeto:
+
 npm run dev
 
 
 Aplicação:
+👉 http://localhost:5173
 
-http://localhost:5173
-
-🔧 Google OAuth
+🔧 Configuração do Google OAuth
 
 Arquivo .env no backend:
 
@@ -159,30 +169,34 @@ Configuração no Google Cloud:
 
 API: Google OAuth2
 
-App Type: Web
+Tipo: Web application
 
 URIs autorizadas:
 
 http://localhost:4000/auth/google
-
 http://localhost:4000/auth/google/callback
 
 🧪 Testes
 Login normal
 
 Email: empresa@exemplo.com
+
 Senha: senha123
 
 Login Google
 
-→ Clique em Entrar com Google
+→ Clicar no botão Entrar com Google
 
 👨‍💻 Equipe – Squad 3
-Nome	Função
+
 Matheus José Cardoso Luna
+
 Bruno Dornelas Costa Ciro da Penha
+
 Rafael Farias Santana
+
 Fábio Gomes dos Reis
+
 📝 Licença
 
-Projeto acadêmico – livre para uso didático.
+Projeto acadêmico — uso didático
