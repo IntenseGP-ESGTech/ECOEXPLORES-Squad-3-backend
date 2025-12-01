@@ -15,7 +15,7 @@ import ReactDOM from 'react-dom/client';
  * @component
  * @requires ./App
  */
-import { App } from './App';
+import App from './App';
 
 /**
  * Estilos globais da aplicação

@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: EcoExplores - API de Trilhas de Aprendizado
+  version: 1.0.0
+  description: |
+    API completa para gerenciamento de Trilhas de Aprendizado e Módulos  
+    Projeto desenvolvido pelo Squad 1 - ECOEXPLORES  
+    Banco de dados: SQLite (arquivo `trilhas.db` na pasta backend)
+
+servers:
+  - url: http://localhost:5000
+    description: Servidor local de desenvolvimento
+
+components:
+  schemas:
+    Modulo:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Introdução aos ODS"
+        content:
+          type: string
+          nullable: true
+          example: "Neste módulo você vai aprender sobre os 17 Objetivos..."
+      required:
+        - title
+
+    NovaTrilha:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Trilha de Sustentabilidade"
+        description:
+          type: string
+          nullable: true
+          example: "Aprendendo os 17 ODS da ONU de forma prática"
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Modulo'
+
+    TrilhaCompleta:
+      allOf:
+        - $ref: '#/components/schemas/NovaTrilha'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            createdAt:
+              type: string
+              format: date-time
+              example: "2025-04-05T10:30:00Z"
+            modules:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  content:
+                    type: string
+                    nullable: true
+                  orderNum:
+                    type: integer
+                  trailId:
+                    type: integer
+
+paths:
+  /api/trails:
+    get:
+      summary: Lista todas as trilhas com seus módulos
+      tags: [Trilhas]
+      responses:
+        '200':
+          description: Lista completa de trilhas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrilhaCompleta'
+
+    post:
+      summary: Cria uma nova trilha
+      tags: [Trilhas]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaTrilha'
+            example:
+              name: "Trilha de Reciclagem"
+              description: "Aprenda a separar lixo e salvar o planeta!"
+              modules:
+                - title: "O que é reciclagem?"
+                  content: "Explicação básica..."
+                - title: "Tipos de materiais"
+                  content: "Plástico, papel, vidro..."
+      responses:
+        '201':
+          description: Trilha criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrilhaCompleta'
+
+  /api/trails/{id}:
+    put:
+      summary: Atualiza uma trilha existente
+      tags: [Trilhas]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaTrilha'
+      responses:
+        '200':
+          description: Trilha atualizada
+
+    delete:
+      summary: Remove uma trilha e todos os seus módulos
+      tags: [Trilhas]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trilha deletada com sucesso

@@ -1,0 +1,14 @@
+# Node
+node_modules/
+.env
+
+# Vite/React
+dist/
+.vite/
+
+# SQLite (opcional: se quiser esconder o banco com dados sensíveis)
+backend/trilhas.db
+
+# Logs e temporários
+*.log
+npm-debug.log*
