@@ -1,18 +1,16 @@
-// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import pkg from 'sqlite3';                // ← forma correta no Node 22+
-const { Database } = pkg;                  // ← agora funciona
+import pkg from 'sqlite3';                
+const { Database } = pkg;                  
 
 const app = express();
 const PORT = 5000;
 
-// Configurações
 app.use(cors());
 app.use(bodyParser.json());
 
-// Banco SQLite (cria o arquivo trilhas.db automaticamente)
+// Banco SQLite
 const db = new Database('trilhas.db', (err) => {
   if (err) {
     console.error('Erro ao conectar no banco:', err.message);

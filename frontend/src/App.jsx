@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// === PÁGINAS DO SEU PROJETO ===
+// === PÁGINAS DO PROJETO ===
 import { Apresentacao } from './pages/Apresentacao';
 import { PreCadastro } from './pages/PreCadastro';
 import { CadastroProfessor } from './pages/CadastroProfessor';
@@ -12,7 +12,7 @@ import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { HomeOds } from './pages/HomeOds';
 
-// === PÁGINA NOVA DE TRILHAS (ESSA É A QUE FALTAVA) ===
+// === PÁGINA DE TRILHAS ===
 import { Trilhas } from './pages/Trilhas';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/homeods" element={<HomeOds />} />
 
-        {/* ROTA NOVA – TRILHAS */}
+        {/* ROTA – TRILHAS */}
         <Route path="/trilhas" element={<Trilhas />} />
       </Routes>
     </Router>

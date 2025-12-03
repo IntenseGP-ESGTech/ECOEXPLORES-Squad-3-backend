@@ -1,41 +1,20 @@
-/**
- * Componente de Cadastro de Escola
- * @module CadastroEscola
- * @description Formulário de cadastro para instituições de ensino com validação de CNPJ
- * @returns {JSX.Element} Componente de formulário de cadastro institucional
- */
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 
-// Assets
 import logo from '../assets/logo.svg';
 import mundoLogo from '../assets/mundoLogo.svg';
 import mundoBaixo from '../assets/mundoBaixo.svg';
 
-// Styles
 import styles from '../styles/CadastroEscola.module.css';
 
-/**
- * Componente principal de cadastro de escola
- * @function CadastroEscola
- * @property {function} handleCnpjChange - Formata o CNPJ durante a digitação
- * @property {function} handleSubmit - Submissão do formulário (navega para login)
- * @property {function} handleVoltar - Navegação para tela de pré-cadastro
- */
 export function CadastroEscola() {
-    // Estados do formulário
     const [cnpj, setCnpj] = useState('');
     const [email, setEmail] = useState('');
     const [instituicao, setInstituicao] = useState('');
     const [senha, setSenha] = useState('');
     const navigate = useNavigate();
 
-    /**
-     * Formata o CNPJ durante a digitação (XX.XXX.XXX/XXXX-XX)
-     * @param {Object} e - Evento do input
-     */
     const handleCnpjChange = (e) => {
         let value = e.target.value.replace(/\D/g, '');
         
@@ -52,19 +31,11 @@ export function CadastroEscola() {
         setCnpj(value);
     };
 
-    /**
-     * Manipulador de submissão do formulário
-     * @param {Object} e - Evento de submit
-     */
     const handleSubmit = (e) => {
         e.preventDefault();
         navigate('/login');
     };
 
-    /**
-     * Manipulador de navegação para pré-cadastro
-     * @param {Object} e - Evento de click
-     */
     const handleVoltar = (e) => {
         e.preventDefault();
         navigate('/precadastro');
@@ -72,21 +43,16 @@ export function CadastroEscola() {
 
     return (
         <div className={styles.container}>
-            {/* Header com logo e elementos decorativos */}
             <img src={logo} alt="Logo da plataforma" className={styles.logo} />
             <img src={mundoLogo} alt="Elemento decorativo superior" className={styles.mundoLogo} />
             <img src={mundoBaixo} alt="Elemento decorativo inferior" className={styles.mundoBaixo} />
 
-            {/* Container principal do formulário */}
             <div className={styles.loginBox}>
                 <div className={styles.welcomeContainer}>
                     <h1 className={styles.welcomeTitle}>Seja Bem Vindo!</h1>
                     <p className={styles.welcomeSubtitle}>Crie sua conta, leva menos de um minuto!</p>
-                    
-                    {/* Formulário de cadastro */}
+
                     <form className={styles.formContainer} aria-label="Formulário de cadastro institucional">
-                        
-                        {/* Campo: CNPJ com formatação automática */}
                         <div className={styles.inputGroup}>
                             <label htmlFor="cnpj">CNPJ</label>
                             <input
@@ -102,8 +68,7 @@ export function CadastroEscola() {
                             />
                             <small id="cnpjHelp" className="sr-only">Formato: 00.000.000/0000-00</small>
                         </div>
-                        
-                        {/* Campo: Email institucional */}
+
                         <div className={styles.inputGroup}>
                             <label htmlFor="email">E-mail Corporativo</label>
                             <input 
@@ -116,8 +81,7 @@ export function CadastroEscola() {
                                 aria-required="true"
                             />
                         </div>
-                        
-                        {/* Campo: Nome da instituição */}
+
                         <div className={styles.inputGroup}>
                             <label htmlFor="instituicao">Nome da Instituição</label>
                             <input 
@@ -130,8 +94,7 @@ export function CadastroEscola() {
                                 aria-required="true"
                             />
                         </div>
-                        
-                        {/* Campo: Senha */}
+
                         <div className={styles.inputGroup}>
                             <label htmlFor="senha">Defina sua Senha</label>
                             <input 
@@ -144,8 +107,7 @@ export function CadastroEscola() {
                                 aria-required="true"
                             />
                         </div>
-                        
-                        {/* Botões de ação */}
+
                         <div className={styles.buttonGroup}>
                             <button 
                                 type="submit" 
@@ -165,8 +127,7 @@ export function CadastroEscola() {
                             </button>
                         </div>
                     </form>
-                    
-                    {/* Login social */}
+
                     <div className={styles.socialLogin} aria-label="Opções de login social">
                         <p>Faça login com</p>
                         <FaGoogle 

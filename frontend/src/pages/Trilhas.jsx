@@ -1,9 +1,8 @@
-// src/pages/Trilhas.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.svg';
-import mundoLogo from '../assets/mundoLogo.svg'; // Use o mesmo de cadastro
-import mascote from '../assets/mascote.svg'; // Decorativo como em CadastroAluno
+import mundoLogo from '../assets/mundoLogo.svg';
+import mascote from '../assets/mascote.svg';
 import styles from '../styles/Trilhas.module.css';
 
 export function Trilhas() {
@@ -13,12 +12,10 @@ export function Trilhas() {
   const [showForm, setShowForm] = useState(false);
   const [editingTrail, setEditingTrail] = useState(null);
 
-  // Formulário
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [modules, setModules] = useState([{ title: '', content: '', order: 1 }]);
 
-  // Carrega todas as trilhas
   const loadTrails = async () => {
     try {
       const res = await fetch('http://localhost:5000/api/trails');
@@ -35,17 +32,14 @@ export function Trilhas() {
     loadTrails();
   }, []);
 
-  // Adiciona novo módulo no formulário
   const addModule = () => {
     setModules([...modules, { title: '', content: '', order: modules.length + 1 }]);
   };
 
-  // Remove módulo do formulário
   const removeModule = (index) => {
     setModules(modules.filter((_, i) => i !== index));
   };
 
-  // Atualiza campo de módulo
   const updateModule = (index, field, value) => {
     const newModules = [...modules];
     newModules[index][field] = value;
@@ -53,7 +47,6 @@ export function Trilhas() {
     setModules(newModules);
   };
 
-  // Salva (cria ou edita)
   const handleSave = async () => {
     if (!name.trim()) return alert('Nome da trilha é obrigatório!');
 
@@ -85,7 +78,6 @@ export function Trilhas() {
     }
   };
 
-  // Editar trilha
   const handleEdit = (trail) => {
     setEditingTrail(trail);
     setName(trail.name);
@@ -99,7 +91,6 @@ export function Trilhas() {
     window.scrollTo(0, 0);
   };
 
-  // Deletar trilha
   const handleDelete = async (id) => {
     if (!confirm('Tem certeza que quer deletar esta trilha?')) return;
 
@@ -111,7 +102,6 @@ export function Trilhas() {
     }
   };
 
-  // Resetar formulário
   const resetForm = () => {
     setName('');
     setDescription('');
@@ -126,12 +116,10 @@ export function Trilhas() {
       <img src={mundoLogo} alt="Mundo Logo" className={styles.mundoLogo} />
       <img src={mascote} alt="Mascote" className={styles.mascote} />
 
-      {/* Botão Voltar - estilo igual ao returnButton do Home */}
       <button onClick={() => navigate('/home')} className={styles.backButton}>
         VOLTAR
       </button>
 
-      {/* Caixa de conteúdo - estilo welcomeContainer */}
       <div className={styles.contentBox}>
         <div className={styles.welcomeContainer}>
           <h1 className={styles.welcomeTitle}>Trilhas de Aprendizado</h1>
@@ -140,7 +128,6 @@ export function Trilhas() {
             + Nova Trilha
           </button>
 
-          {/* Formulário */}
           {showForm && (
             <form className={styles.formContainer}>
               <div className={styles.inputGroup}>
@@ -212,7 +199,6 @@ export function Trilhas() {
             </form>
           )}
 
-          {/* Lista de trilhas */}
           {loading ? (
             <p>Carregando trilhas...</p>
           ) : trails.length === 0 ? (
